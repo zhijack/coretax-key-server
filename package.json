@@ -1,13 +1,12 @@
 {
-  "name": "coretax-key-server",
+  "name": "coretax-api-vercel",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "api/validate.js",
   "scripts": {
-    "start": "node server.js"
+    "dev": "vercel dev"
   },
   "dependencies": {
     "express": "^4.18.2",
-    "body-parser": "^1.20.2",
-    "pg": "^8.11.3"
+    "body-parser": "^1.20.2"
   }
 }
