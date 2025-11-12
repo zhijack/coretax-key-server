@@ -1,5 +1,4 @@
 exports.handler = async (event, context) => {
-  // Hanya izinkan POST
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
