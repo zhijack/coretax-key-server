@@ -9,12 +9,10 @@ exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method not allowed' }) };
   }
-
   const { key } = JSON.parse(event.body || '{}');
   if (!key) {
     return { statusCode: 400, body: JSON.stringify({ success: false }) };
   }
-
   try {
     const { data, error } = await supabase
       .from('license_keys')
