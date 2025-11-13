@@ -9,6 +9,7 @@ exports.handler = async (event) => {
   }
 
   const { key, device_id } = JSON.parse(event.body || '{}');
+
   if (!key || !device_id) {
     return { statusCode: 400, body: JSON.stringify({ success: false, message: 'Key & device required' }) };
   }
@@ -26,18 +27,26 @@ exports.handler = async (event) => {
 
     if (keyData.device_id) {
       if (keyData.device_id !== device_id) {
-        return { statusCode: 403, body: JSON.stringify({ success: false, message: 'Key already used on another device' }) };
+        return { statusCode: 403, body: JSON.stringify({ 
+          success: false, 
+          message: 'Key sudah dipakai di perangkat lain. Reset device ID di panel.' 
+        }) };
       }
-    } else {
-      await supabase
-        .from('license_keys')
-        .update({ device_id, used_at: new Date().toISOString() })
-        .eq('key', key.trim());
+      return { statusCode: 200, body: JSON.stringify({ success: true }) };
     }
 
+    await supabase
+      .from('license_keys')
+      .update({ 
+        device_id, 
+        used_at: new Date().toISOString() 
+      })
+      .eq('key', key.trim());
+
     return { statusCode: 200, body: JSON.stringify({ success: true }) };
+
   } catch (err) {
-    console.error(err);
+    console.error('Validate error:', err);
     return { statusCode: 500, body: JSON.stringify({ success: false }) };
   }
 };
